@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect, useMemo } from "react";
 import Webcam from "react-webcam";
 import { FiBookOpen, FiCamera, FiRefreshCw } from "react-icons/fi";
 import { anylizeAction } from "@/action/analizeAction";
+import ModelSelector from "./ModelSelector";
 
 function usePotrait() {
   const [potrait, setPotrait] = useState(false);
@@ -40,6 +41,10 @@ function Camera() {
     rid: "",
   });
 
+  const [model, setModel] = useState(
+    "mistralai/mistral-small-3.2-24b-instruct:free"
+  );
+
   const ridRef = useRef("");
   const ridInputRef = useRef(null);
 
@@ -51,7 +56,7 @@ function Camera() {
   const [responseHtml, setResponseHtml] = useState("");
 
   const isPortrait = usePotrait(); // 9:16 => 16:9 (untuk rensponsive dari camera nya)
-  console.log(isPortrait);
+  // console.log(isPortrait);
   const videoConstrains = useMemo(
     () => ({
       facingMode: "user",
@@ -102,7 +107,7 @@ function Camera() {
     context.drawImage(video, sx, sy, sw, sh, 0, 0, targetW, targetH);
 
     const result = canvas.toDataURL("image/jpeg", 0.9);
-    console.log(result);
+    // console.log(result);
     setPhotoDataUrl(result);
   }
 
@@ -180,9 +185,14 @@ function Camera() {
     typedHtml || (isTyping ? "" : responseHtml) || ""
   );
 
+  // useEffect(() => {
+  //   console.log("🔁 Model berubah jadi:", model);
+  // }, [model]);
+
   return (
     <div>
-      <div className="relative w-full rounded-2xl overflow-hidden bg-black">
+      <ModelSelector onSelect={setModel} selectedModel={model} />
+      <div className="relative w-full rounded-2xl overflow-hidden bg-black mt-8">
         <Webcam
           ref={webcamRef}
           audio={false}
@@ -255,12 +265,12 @@ function Camera() {
             <FiBookOpen /> Hasil Ramalan
           </div>
           {isTyping && !typedHtml && (
-            <div className="flex items-center gap-1 text-sm text-gray-500">
-              <span className="w-2 h-2 rounded-full bg-gray-400 animate-pulse" />
+            <div className="flex items-center justify-center gap-1 text-sm text-gray-500 my-4 py-4">
+              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-300 to-sky-300 animate-pulse" />
 
-              <span className="w-2 h-2 rounded-full bg-gray-400 animate-pulse [animation-delay:.15s]" />
+              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-300 to-sky-300 animate-pulse [animation-delay:.15s]" />
 
-              <span className="w-2 h-2 rounded-full bg-gray-400 animate-pulse [animation-delay:.3s]" />
+              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-300 to-sky-300 animate-pulse [animation-delay:.3s]" />
             </div>
           )}
           {htmlToRender.trim() ? (
