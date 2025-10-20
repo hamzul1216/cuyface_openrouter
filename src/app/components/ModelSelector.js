@@ -12,11 +12,11 @@ function ModelSelector({ onSelect, selectedModel }) {
   ];
 
   return (
-    <div className="text-center bg-gray-800 p-6 mt-8 rounded-xl shadow border border-gray-700">
-      <p className="text-base">
+    <div className="text-center bg-gray-800 p-4 sm:p-6 mt-6 sm:mt-8 rounded-xl shadow border border-gray-700">
+      <p className="text-sm sm:text-base">
         Silahkan pilih AI model yang akan digunakan untuk melakukan prediksi
       </p>
-      <div className="flex items-center justify-center gap-5 mt-4">
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-3 sm:mt-4">
         {models.map((model) => {
           return (
             <button
